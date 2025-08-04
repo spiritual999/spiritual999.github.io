@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>赫月の輪 - 極秘波動調律の聖域</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: #ffffff;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+        
+        .mystical-bg {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.3) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            margin: 10px;
+        }
+        
+        .gold-text {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .purple-glow {
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+        }
+        
+        .line-button {
+            background: linear-gradient(45deg, #00C851, #00FF6F);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-height: 44px;
+            min-width: 200px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .line-button:hover, .line-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 200, 81, 0.4);
+        }
+        
+        .wave-animation {
+            animation: wave 2s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 18px;
+            margin: 12px 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 18px;
+            min-height: 50px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .login-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+        
+        .login-form input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .checker-button {
+            background: linear-gradient(45deg, #8A2BE2, #9370DB);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 15px 0;
+            min-height: 60px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .checker-button:hover, .checker-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .participant-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+            margin: 25px 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            padding: 0 20px;
+        }
+        
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.95) 0%, rgba(75, 0, 130, 0.95) 100%);
+            padding: 30px 25px;
+            border-radius: 20px;
+            z-index: 1000;
+            border: 2px solid #ffd700;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.8);
+            width: 90vw;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            padding: 0 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .container {
+            padding: 0 10px;
+        }
+        
+        .question-option {
+            width: 100%;
+            padding: 15px;
+            text-align: left;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            margin: 10px 0;
+            font-size: 16px;
+            min-height: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .question-option:hover, .question-option:active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            transform: translateY(-1px);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .close-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .customer-review {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .main-title {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            padding: 0 20px;
+        }
+        
+        .main-subtitle {
+            font-size: 1.3rem;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .customer-voice-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .soldout-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-align: center;
+            margin: 30px 0;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .participant-count {
+                font-size: 22px;
+            }
+            
+            .mystical-bg {
+                margin: 8px;
+                padding: 20px;
+            }
+            
+            .popup {
+                padding: 25px 20px;
+                width: 95vw;
+            }
+            
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .soldout-text {
+                font-size: 2rem;
+            }
+        }
+        
+        /* iOS specific optimizations */
+        @supports (-webkit-touch-callout: none) {
+            .login-form input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LINE Popup -->
+    <div id="linePopup" class="popup-overlay" style="display: block;">
+        <div class="popup">
+            <h2 class="gold-text text-xl mb-4">🌙 特別招待 🌙</h2>
+            <p class="mb-6 text-base leading-relaxed">3代目波動調律師による<br>極秘の無料波動鑑定を<br>今すぐ受け取りませんか？</p>
+            <a href="https://line.me/R/ti/p/%40648pabwu" target="_blank" class="line-button">
+                <i class="fab fa-line mr-2"></i>今すぐ無料LINE鑑定を受ける
+            </a>
+            <button onclick="closePopup()" class="close-button">後で確認する</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto py-6">
+        <!-- Title -->
+        <div class="text-center mb-6">
+            <h1 class="main-title font-bold gold-text wave-animation">赫月の輪</h1>
+            <p class="main-subtitle text-purple-300">極秘波動調律の聖域</p>
+        </div>
+
+        <!-- Participant Count -->
+        <div class="participant-count">
+            現在 334 人が参加中
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="mystical-bg p-6 mx-auto mb-6">
+            <h2 class="section-title text-lg mb-6">会員専用ログイン</h2>
+            <form class="login-form" onsubmit="return handleLogin(event)">
+                <input type="text" id="username" placeholder="ユーザー名" required autocomplete="username">
+                <input type="password" id="password" placeholder="パスワード" required autocomplete="current-password">
+                <button type="submit" class="checker-button">ログイン</button>
+            </form>
+            <div class="text-center mt-4">
+                <a href="https://line.me/R/ti/p/%40648pabwu" target="_blank" class="text-yellow-400 underline text-base">参加方法はこちら</a>
+            </div>
+        </div>
+
+        <!-- Member Content (Hidden by default) -->
+        <div id="memberContent" style="display: none;">
+            <!-- Self Introduction Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">自己紹介</h2>
+                <div class="text-center mb-6">
+                    <img src="https://gensparkstorageprodwest.blob.core.windows.net/web-drive/61dea4df-6f76-4c85-91d5-69b2fd05b1d0/97538f80-e812-465c-80fc-7b2f84381c4f?se=2025-08-04T08%3A05%3A17Z&sp=r&sv=2025-05-05&sr=b&rscd=attachment%3B%20filename%3D%22IMG_3653%203.JPG%22&sig=JH6ppXkDYlOHoGKzxJIwazCiUHSGa8wjG1B4jMwE/zw%3D" 
+                         alt="3代目波動調律師" 
+                         class="profile-image">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-xl gold-text mb-4">3代目波動調律師</h3>
+                    <p class="text-lg mb-4">鑑定歴10年</p>
+                    <p class="text-gray-300 text-base leading-relaxed px-2">これまでは完全紹介制のみで対応してまいりました。<br>
+                    今回、特別に一般の方々にもその神秘の力をお分けいたします。</p>
+                </div>
+            </div>
+
+            <!-- Wave Video Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">極秘波動動画</h2>
+                <div class="text-center">
+                    <div class="bg-black p-4 rounded-lg mb-4">
+                        <p class="text-yellow-400 mb-4 text-base">🔒 会員限定コンテンツ 🔒</p>
+                        <p class="mb-4 text-sm leading-relaxed">これまでSNSでは一切出してません。<br>
+                        芸能人・政界・大手企業の方など、<br>
+                        "本当に運を味方につけたい人たち"だけに、<br>
+                        数十万円でお渡ししてきた</p>
+                        <p class="text-lg gold-text mb-4">【波動×運気】を底上げする"非公開の動画"</p>
+                        <div class="bg-gray-800 p-8 rounded-lg flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-play-circle text-6xl text-yellow-400 mb-4"></i>
+                                <p class="text-gray-300">動画準備中</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wave Checker Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">波動チェッカー</h2>
+                <div class="text-center">
+                    <p class="text-base mb-6 leading-relaxed px-2">あなたの現在の波動状態を<br>詳しく診断いたします</p>
+                    <button onclick="openWaveChecker()" class="checker-button">
+                        <i class="fas fa-magic mr-2"></i>波動チェッカーで診断する
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Reviews Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">お客様の声</h2>
+                <div class="space-y-4">
+                    <div class="customer-review">
+                        <p class="mb-3 text-base">"連絡を断っていた元カレから急に「会いたい」と連絡が来ました！"</p>
+                        <p class="text-yellow-400 text-sm">- A.M様（32歳女性）</p>
+                    </div>
+                    <div class="customer-review">
+                        <p class="mb-3 text-base">"滞っていたプロジェクトが数千万単位で一気に動きました"</p>
+                        <p class="text-yellow-400 text-sm">- T.K様（45歳男性）</p>
+                    </div>
+                    <div class="customer-review">
+                        <p class="mb-3 text-base">"家族関係のわだかまりが一晩で解けました"</p>
+                        <p class="text-yellow-400 text-sm">- S.H様（38歳女性）</p>
+                    </div>
+                    <div class="customer-review">
+                        <p class="mb-3 text-base">"ずっと叶わなかった願いが、不思議な形で現実化しました"</p>
+                        <p class="text-yellow-400 text-sm">- M.Y様（41歳女性）</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Consultation Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">有料鑑定と鑑定受講者の声</h2>
+                <div class="text-center">
+                    <p class="text-base mb-6 leading-relaxed">こちらのセクションは準備中です</p>
+                    <a href="https://line.me/R/ti/p/%40648pabwu" target="_blank" class="line-button">
+                        <i class="fab fa-line mr-2"></i>詳しくはLINEでお問い合わせください
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dragon's Cloak Section -->
+            <div class="mystical-bg p-6 mb-6">
+                <h2 class="section-title">龍の纏</h2>
+                <div class="text-center">
+                    <p class="text-base mb-6 leading-relaxed px-4 text-gray-300">
+                        古来より、占術家たちの間で密かに語り継がれてきた伝説があります。<br><br>
+                        それは、年に一度、満月が天高く昇り、その光が特定の龍脈を貫く聖なる夜にだけ、地上の石に「龍の魂」を宿すことができる、というもの。<br><br>
+                        その聖夜は、月の引力と地球の磁場が奇跡的な均衡を保ち、天と地を繋ぐエネルギーの扉が開く、僅か数時間。この時を逃せば、次の機会はまた一年後。<br><br>
+                        赫月は、この千載一遇の好機を逃さず、古文書に記された聖地へと赴きます。<br><br>
+                        そこで、月の光を浴びて清められた最高品質のパワーストーンの中から、さらに龍の魂を宿すにふさわしい、ごく僅かな石だけを厳選。<br><br>
+                        そして、夜明けまでの限られた時間、赫月は一切の俗世との関わりを断ち、祝詞を唱えながら、その石一つひとつに、あなたの魂と共鳴する守護龍のエネルギーを一対一で封入していきます。<br><br>
+                        これが「龍の纏」が、決して大量生産できず、限られた数しかご用意できない理由です。
+                    </p>
+
+                    <!-- Customer Voice Images -->
+                    <div class="mt-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="bg-pink-200 p-6 rounded-lg shadow-lg">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-16 h-16 rounded-full bg-gray-300 mr-4"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold text-black">停滞していた恋愛運が、急に動き出しました！</h3>
+                                            <p class="text-sm text-gray-600">（Y.N様・36歳・事務職）</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded text-left text-black text-sm">
+                                        <p>もう何年も彼氏がおらず、アプリで出会っても、なぜか2回目のデートに繋がらない...</p>
+                                        <p class="mt-2">恋愛運が完全に止まっていると感じていました。赫月先生の鑑定で、恋愛の波動を上げるためのアドバイスと共に、このブレスレットを勧められました。本当にかわいいデザインです。毎日、「素敵な出会いを引き寄せますように」と願いを込めながら、この数珠を身につけていました。すると、着け始めて2週間くらい経った頃から、不思議と男性から声をかけられたり、食事に誘われたりすることが増えたんです！</p>
+                                        <p class="mt-2">そして先日、友人の紹介で出会った男性と、お付き合いすることになりました。彼は、私が今まで出会った誰よりも優しくて、私を大切にしてくれます。このブレスレットが、私の眠っていた女性性を目覚めさせ、恋愛の周波数に合わせてくれたんだと確信しています。締めなくて、本当によかったです。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="bg-yellow-200 p-6 rounded-lg shadow-lg">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-16 h-16 rounded-full bg-gray-300 mr-4"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold text-black">金運アップは本当でした！臨時収入にびっくり！</h3>
+                                            <p class="text-sm text-gray-600">（C.T様・42歳・自営業）</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded text-left text-black text-sm">
+                                        <p>自営業のため、毎月の売上の変動が悩みの種でした。金運を上げたい一心で、赫月先生の鑑定を受け、金運に特化したブレスレットを購入。正直、アクセサリーで金運が変わるなんて...と半信半疑でした。</p>
+                                        <p class="mt-2">でも、このブレスレットを身につけてから、仕事の流れが明らかに変わったんです。今まで滞っていた商談がスムーズに進んだり、新規の大きな依頼が舞い込んできたり。そして極め付けは、先日、全く期待していなかったところから、まとまった額の臨時収入があったこと！本当にびっくりしました。</p>
+                                        <p class="mt-2">ただお金を引き寄せるだけでなく、お金に対する不安・ブロックが、この石を脱いでいるだけで、スーッと溶けていくような感覚があります。今では、仕事をする時の必須アイテムです。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="bg-blue-200 p-6 rounded-lg shadow-lg">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-16 h-16 rounded-full bg-gray-400 mr-4"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold text-black">毎晩悪夢を見ていたのが、ぐっすり眠れるように</h3>
+                                            <p class="text-sm text-gray-600">（R.I様29歳・会社員）</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded text-left text-black text-sm">
+                                        <p>仕事のプレッシャーから、ここ数ヶ月、毎晩のように悪夢にうなされ、寝ても疲れが取れない日々が続いていました。心療内科に行こうか迷っていた時に、赫月先生の存在を知りました。先生は、私のオーラを視て「霊的なエネルギーに少し敏感になっている」と。そして、浄化と守護の力が強いという、アメジスト等黒水晶を使ったブレスレットを薦めてくれました。</p>
+                                        <p class="mt-2">その夜、ブレスレットを枕元に置いて寝てみました。すると、何ヶ月ぶりかに、一度も起きることなく、朝までぐっすり眠れたんです。夢も見ませんでした。朝起きた時の、あの爽快感は今でも忘れられません。</p>
+                                        <p class="mt-2">それ以来、毎日欠かさず身につけています。日中も、イライラすることが減り、心が穏やかに保たれているのを感じます。私のように、目に見えないエネルギーで疲れてしまっている人に、心からお薦めしたいです。これは、私の魂の安眠枕です。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="bg-gray-200 p-6 rounded-lg shadow-lg">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-16 h-16 rounded-full bg-gray-300 mr-4"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold text-black">自信が持てなかった私が、堂々と前に進めるように</h3>
+                                            <p class="text-sm text-gray-600">（M.A様・32歳・企画職）</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded text-left text-black text-sm">
+                                        <p>昔から人前に立つのが苦手で、会議でのプレゼン前はいつもお腹が痛くなるほどでした。赫月先生から「自己肯定感の波動が少し弱い」と指摘され、半信半疑でこのブレスレットを身につけ始めました。</p>
+                                        <p class="mt-2">届いたブレスレットは、写真で見るよりずっと綺麗で、石がひんやりと手首に馴染む感覚が心地よかったです。不思議なことに、これを着けていると、心がざわついた時に、そっと数珠を撫でるだけで「大丈夫、あなたはできる」という、静かで力強いエネルギーが内側から湧いてくるような感覚になるんです。</p>
+                                        <p class="mt-2">先日の大切なコンペで、私は全く緊張しませんでした。むしろ、堂々と、自分の言葉で想いを伝えることができたんです。結果は見事採用！上司からも「最近、自信に満ちていて、すごく輝いしい！」と褒められました。これはもう、私にとってただのアクセサリーではありません。"私を守り、勇気をくれるお守り"です。本当にありがとうございました。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-400 mb-4">※制作予定：未定</p>
+                    
+                    <!-- SOLDOUT Display -->
+                    <div class="soldout-text">
+                        SOLDOUT
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wave Checker Modal -->
+    <div id="waveCheckerModal" class="popup-overlay" style="display: none;">
+        <div class="popup">
+            <h2 class="gold-text text-xl mb-4">波動チェッカー</h2>
+            <div id="checkerContent">
+                <div class="mb-6 space-y-4">
+                    <button onclick="startChecker('simple')" class="checker-button">簡易チェッカー（15問）</button>
+                    <button onclick="startChecker('deep')" class="checker-button">深層チェッカー（30問）</button>
+                </div>
+            </div>
+            <button onclick="closeWaveChecker()" class="close-button">閉じる</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let answers = [];
+        let questionType = '';
+        
+        const questions = [
+            "最近、物事がスムーズに進まないことがある",
+            "人との出会いや繋がりで良いタイミングを逃すことがある",
+            "周りの人が自分より運が良さそうに見える",
+            "恋愛や人間関係で理想とのギャップを感じる",
+            "仕事や将来について漠然とした不安がある",
+            "家族や身近な人との関係で悩むことがある",
+            "お金や経済面での心配事がある",
+            "健康面で気になることや不調がある",
+            "自分の魅力や価値に自信が持てない時がある",
+            "良い変化やチャンスを逃している気がする",
+            "他人と比較して落ち込むことがある",
+            "努力しても報われない感覚を持つことがある",
+            "人からの評価や視線が気になることがある",
+            "自分らしく生きられていない感覚がある",
+            "現在の人生に満足感を感じられない"
+        ];
+        
+        const deepQuestions = [
+            ...questions,
+            "直感や第六感を信じて行動することがある",
+            "過去の失敗や後悔が頭から離れないことがある",
+            "新しい環境や変化に対する適応力について",
+            "他人の感情やエネルギーに影響されやすい",
+            "自分の本当の気持ちを相手に伝えることができる",
+            "睡眠の質や夢について",
+            "一人の時間を過ごすことについて",
+            "物事を決断する時の迷いについて",
+            "周囲からのサポートや助けについて",
+            "自分の才能や能力に対する認識",
+            "ストレスを感じた時の対処方法",
+            "目標や夢に向かって行動することについて",
+            "感謝の気持ちを持つ頻度について",
+            "人生における使命や目的について",
+            "今の自分の人生の流れについて"
+        ];
+        
+        const options = [
+            "全然ない、順調",
+            "たまにある",
+            "時々感じる",
+            "よくある"
+        ];
+        
+        const messages = [
+            {
+                title: "献身のクリスタルローズ",
+                content: "彼の好きなものが、いつの間にか自分のお気に入りの一着になっていたり。「私がいないと、この人は本当にダメだから」と、彼のスケジュールを管理し、彼の失敗を先回りしてフォローすることに、自分の存在価値を見出していませんか？\n\n相手が喜ぶ顔を見るためなら、自分のことはつい後回しにしてしまう。その愛は、ガラス細工の薔薇のように繊細で、美しく、かけがえのないもの。でも、その献身が、知らず知らずのうちに、あなたの心のエネルギーを少しずつ消耗させているとしたら…？\n\n……もしも。あなたが自分自身を愛で満たすことで、二人の関係がもっと輝き始めるとしたら？"
+            },
+            {
+                title: "共感のウォーターミラー",
+                content: "友達から「ちょっと聞いてよ」と相談を受けると、まるで自分のことのように感情が揺さぶられ、一緒になって涙を流したり、本気で腹を立てたり。電話を切った後、なぜか自分の気分まで落ち込んで、どっと疲れてしまうことがある。\n\nその優しさは、あなたの素晴らしい才能。だからこそ、あなたの周りには自然と人が集まってくるのでしょう。\n\n……もしも。その類まれなる共感能力を、自分を疲れさせることなく、才能として開花させられるとしたら？"
+            }
+        ];
+        
+        function closePopup() {
+            document.getElementById('linePopup').style.display = 'none';
+        }
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (username === 'member' && password === 'kakugetsu2024') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('memberContent').style.display = 'block';
+                alert('ログインに成功しました。ようこそ赫月の輪へ。');
+            } else {
+                alert('ユーザー名またはパスワードが正しくありません。');
+            }
+            return false;
+        }
+        
+        function openWaveChecker() {
+            document.getElementById('waveCheckerModal').style.display = 'block';
+        }
+        
+        function closeWaveChecker() {
+            document.getElementById('waveCheckerModal').style.display = 'none';
+            currentQuestion = 0;
+            answers = [];
+        }
+        
+        function startChecker(type) {
+            questionType = type;
+            currentQuestion = 0;
+            answers = [];
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            const questionSet = questionType === 'deep' ? deepQuestions : questions;
+            const totalQuestions = questionSet.length;
+            
+            if (currentQuestion >= totalQuestions) {
+                showResult();
+                return;
+            }
+            
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            const content = document.getElementById('checkerContent');
+            content.innerHTML = `
+                <div class="mb-4">
+                    <div class="text-sm text-gray-300 mb-2">質問 ${currentQuestion + 1} / ${totalQuestions}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <h3 class="text-base mb-6 leading-relaxed">${questionSet[currentQuestion]}</h3>
+                    <div class="space-y-3">
+                        ${options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" class="question-option">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function selectAnswer(answerIndex) {
+            answers.push(answerIndex);
+            currentQuestion++;
+            showQuestion();
+        }
+        
+        function showResult() {
+            // Simple analysis based on answer patterns
+            const relationshipAnswers = answers.slice(0, 5);
+            const workAnswers = answers.slice(5, 10);
+            const mentalAnswers = answers.slice(10, 15);
+            
+            const relationshipScore = relationshipAnswers.reduce((a, b) => a + b, 0);
+            const workScore = workAnswers.reduce((a, b) => a + b, 0);
+            const mentalScore = mentalAnswers.reduce((a, b) => a + b, 0);
+            
+            let selectedMessage;
+            if (relationshipScore >= workScore && relationshipScore >= mentalScore) {
+                selectedMessage = messages[0];
+            } else {
+                selectedMessage = messages[1];
+            }
+            
+            const content = document.getElementById('checkerContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <h3 class="text-lg gold-text mb-4">あなたの状態：『${selectedMessage.title}』</h3>
+                    <div class="text-left mb-6 p-4 bg-purple-900 bg-opacity-50 rounded-lg">
+                        <p class="whitespace-pre-line text-sm leading-relaxed">${selectedMessage.content}</p>
+                    </div>
+                    <a href="https://line.me/R/ti/p/%40648pabwu" target="_blank" class="line-button">
+                        <i class="fab fa-line mr-2"></i>波動を高めるための方法を知りたい方はこちらへ
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Show popup on page load
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('linePopup').style.display = 'block';
+            }, 1000);
+        };
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
