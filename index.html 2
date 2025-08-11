@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>願望地蔵 - オンライン神社</title>
+<style>
+  :root{
+    --bg:#0e0f14; --card:#151826; --text:#f6f7fb; --muted:#bbc2d0;
+    --sakura-1:#f7b4c8; --sakura-2:#ffd7e2;
+    /* 豪運（ゴールド）テーマ */
+    --gold-1:#ffeb99; --gold-2:#ffd54a; --gold-3:#f5c400; --glow:#fff3c4;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{
+    width:min(640px,94vw); padding:28px 24px; background:linear-gradient(180deg,#171a28 0%,#121523 100%);
+    border:1px solid rgba(255,255,255,.06); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.45)
+  }
+  h1{margin:0 0 10px;font-weight:700;letter-spacing:.04em;font-size:clamp(20px,4vw,28px)}
+  p.lead{margin:.25rem 0 1.25rem;color:var(--muted);line-height:1.7}
+  label{display:block;margin:.5rem 0 .35rem;color:#cfd5e6;font-size:14px}
+  textarea{
+    width:100%; min-height:120px; resize:vertical; padding:14px 16px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.08); background:#0f1220; color:var(--text); line-height:1.7; font-size:15px;
+    outline:none; transition: box-shadow .2s, border-color .2s;
+  }
+  textarea:focus{border-color:#6b79ff66; box-shadow:0 0 0 4px #6b79ff22}
+  .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:12px}
+  .btn{
+    appearance:none; border:0; cursor:pointer; border-radius:12px; padding:12px 18px; font-weight:700; letter-spacing:.02em;
+    background:linear-gradient(135deg,#ff6aa3 0%,#ff86b8 35%,#ffc1d7 100%); color:#29121c; transition: transform .06s ease, filter .2s ease;
+  }
+  .btn:hover{filter:brightness(1.05)}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:#22263b;color:#e7ebff;border:1px solid rgba(255,255,255,.08)}
+  .hint{font-size:12px;color:#9aa3b8;margin-left:auto}
+
+  /* 祈願画面 */
+  .screen{position:fixed; inset:0; display:none; place-items:center; overflow:hidden; }
+  .screen.show{display:grid}
+
+  /* 通常（桜）背景 */
+  .screen.normal{
+    background:
+      radial-gradient(1200px 800px at 50% -20%, #1b1f33 0%, transparent 60%),
+      linear-gradient(180deg,#0d0e14 0%,#0a0b12 50%,#0a0b12 100%);
+  }
+  /* 豪運（ゴールド）背景 */
+  .screen.lucky{
+    background:
+      radial-gradient(1200px 900px at 50% -30%, rgba(255,244,179,.25) 0%, transparent 60%),
+      linear-gradient(180deg,#0b0a07 0%,#111006 55%,#0b0a07 100%);
+  }
+  .center{
+    text-align:center; padding:24px; max-width:min(800px,90vw);
+    animation: fadeIn .9s ease both .2s; z-index:2;
+  }
+  .wish-title{font-size:clamp(20px,3.8vw,30px); font-weight:800; letter-spacing:.08em; margin:0 0 10px}
+  .wish-text{opacity:.92; color:#d8ddea; line-height:1.9; margin:0 0 18px; font-size:clamp(15px,2.8vw,18px)}
+  .blessing{
+    font-size:clamp(22px,5vw,40px); font-weight:900; letter-spacing:.14em; margin:6px 0 10px;
+    text-shadow:0 2px 16px rgba(255,151,188,.25), 0 0 2px rgba(255,255,255,.6)
+  }
+  .lucky .blessing{
+    color:var(--glow);
+    text-shadow:0 0 12px rgba(255,225,130,.6), 0 0 34px rgba(255,199,77,.35), 0 1px 2px rgba(0,0,0,.6);
+  }
+  .sub{font-size:clamp(14px,3vw,16px); color:#cbd1de; opacity:.9}
+  .lucky .sub{color:#fff0c9}
+
+  .again{margin-top:14px}
+
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
+  .fade-enter{opacity:0; transform:scale(.98)}
+  .fade-enter.fade-enter-active{opacity:1; transform:scale(1); transition:opacity .35s, transform .35s}
+  .fade-exit{opacity:1}
+  .fade-exit.fade-exit-active{opacity:0; transform:scale(.98); transition:opacity .35s, transform .35s}
+
+  .sr{position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; padding:0}
+
+  /* キャンバス（背面） */
+  canvas.bg{position:absolute; inset:0; width:100%; height:100%; z-index:1}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="formCard" class="card fade-enter">
+      <h1>🙏 願望地蔵</h1>
+      <p class="lead">願いごとを入力して「祈願する」。<br>画面が切り替わり、桜が舞って祈願されます。<br>まれに <strong>豪運地蔵</strong> が降臨するかも…！</p>
+      <form id="wishForm">
+        <label for="wish">願いごと</label>
+        <textarea id="wish" name="wish" placeholder="例）家族が健康で穏やかに過ごせますように" required></textarea>
+        <div class="row">
+          <button class="btn" type="submit">🌸 祈願する</button>
+          <span class="hint">※ 内容は保存されません</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 祈願スクリーン（通常/豪運 どちらにも使う） -->
+  <div id="blessingScreen" class="screen normal" aria-live="polite" aria-atomic="true">
+    <canvas id="bgCanvas" class="bg" aria-hidden="true"></canvas>
+    <div class="center">
+      <div id="title" class="wish-title">奉納祈願</div>
+      <p id="wishEcho" class="wish-text"></p>
+      <div id="bless" class="blessing">願いが叶いますように</div>
+      <div id="sub" class="sub"></div>
+      <button id="againBtn" class="btn secondary again">もう一度願う</button>
+    </div>
+  </div>
+
+<script>
+  // ===== 可変パラメータ =====
+  const SPECIAL_NUMERATOR = 1;        // 1
+  const SPECIAL_DENOMINATOR = 50;     // 50 → 1/50
+  // ==========================
+
+  // マウント演出
+  requestAnimationFrame(()=> {
+    const c = document.getElementById('formCard');
+    c.classList.add('fade-enter-active');
+    setTimeout(()=> c.classList.remove('fade-enter','fade-enter-active'), 360);
+  });
+
+  const form = document.getElementById('wishForm');
+  const wishInput = document.getElementById('wish');
+  const screenEl = document.getElementById('blessingScreen');
+  const formCard = document.getElementById('formCard');
+  const wishEcho = document.getElementById('wishEcho');
+  const againBtn = document.getElementById('againBtn');
+  const titleEl = document.getElementById('title');
+  const blessEl = document.getElementById('bless');
+  const subEl = document.getElementById('sub');
+  const bgCanvas = document.getElementById('bgCanvas');
+  let bgCtx, RAF=null, lastT=0, particles=[], pool=[];
+  let mode = 'normal'; // 'normal' or 'lucky'
+
+  const params = new URLSearchParams(location.search);
+  const forceLucky = params.get('force') === 'gooun';
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const text = wishInput.value.trim();
+    if(!text){ wishInput.focus(); return; }
+
+    // 1/50 抽選（デバッグは強制豪運）
+    const lucky = forceLucky || Math.random() < (SPECIAL_NUMERATOR / SPECIAL_DENOMINATOR);
+    mode = lucky ? 'lucky' : 'normal';
+
+    // 画面切替
+    formCard.classList.add('fade-exit','fade-exit-active');
+    setTimeout(()=>{
+      document.querySelector('.wrap').style.display='none';
+      screenEl.classList.remove('normal','lucky');
+      screenEl.classList.add('show', mode);
+
+      // 文言切替
+      wishEcho.textContent = `『${text}』`;
+      if(lucky){
+        titleEl.textContent = '豪運地蔵 降臨';
+        blessEl.textContent = '特大のご加護がありますように';
+        subEl.textContent = '— 強運・金運・良縁 招来 —';
+        startGold();
+      }else{
+        titleEl.textContent = '奉納祈願';
+        blessEl.textContent = '願いが叶いますように';
+        subEl.textContent = '';
+        startSakura();
+      }
+    }, 320);
+  });
+
+  againBtn.addEventListener('click', ()=>{
+    stopAnim();
+    screenEl.classList.remove('show','normal','lucky');
+    document.querySelector('.wrap').style.display='';
+    wishInput.value = '';
+    wishInput.focus();
+  });
+
+  // ===== 背景アニメ共通 =====
+  function setupCanvas(){
+    bgCtx = bgCanvas.getContext('2d');
+    resize();
+    addEventListener('resize', resize);
+    particles.length = 0; pool.length = 0; lastT = 0;
+  }
+  function resize(){
+    bgCanvas.width = innerWidth * devicePixelRatio;
+    bgCanvas.height = innerHeight * devicePixelRatio;
+    bgCtx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  }
+  function stopAnim(){
+    removeEventListener('resize', resize);
+    if(RAF) cancelAnimationFrame(RAF);
+    RAF = null; particles.length = 0; pool.length = 0;
+  }
+  function loop(t){
+    if(!lastT) lastT = t;
+    const dt = Math.min(40, t-lastT);
+    lastT = t;
+    step(dt);
+    RAF = requestAnimationFrame(loop);
+  }
+
+  // ====== 通常：桜 ======
+  function startSakura(){
+    setupCanvas();
+    step = stepSakura;
+    draw = drawPetal;
+    RAF = requestAnimationFrame(loop);
+  }
+  function makePetal(x,y){
+    return {
+      kind:'petal',
+      x,y, z: rand(.6,1.6), vy: rand(40,90), vx: rand(-20,10),
+      rot: rand(0, Math.PI*2), rotSpd: rand(0.7,1.6), sway: rand(20,60),
+      tint: Math.random()<.5 ? getVar('--sakura-1') : getVar('--sakura-2')
+    }
+  }
+  function stepSakura(dt){
+    const PETAL_COUNT = 80, SPAWN_RATE = 14;
+    const wind = 0.35 + Math.sin(performance.now()/1800)*0.45;
+    const w = innerWidth, h = innerHeight;
+
+    const need = PETAL_COUNT - particles.length;
+    const toSpawn = Math.min(need, Math.floor(SPAWN_RATE*dt/1000)+1);
+    for(let i=0;i<toSpawn;i++){
+      particles.push(pool.pop() || makePetal(rand(0,w), -20));
+    }
+
+    bgCtx.clearRect(0,0,w,h);
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.rot += p.rotSpd * dt/1000;
+      p.y += p.vy * dt/1000;
+      p.x += (p.vx + Math.sin(performance.now()/700 + p.y*0.01)*p.sway*0.03 + wind*40) * dt/1000;
+      if(p.y > h+30 || p.x < -40 || p.x > w+40){
+        particles.splice(i,1); pool.push(p); continue;
+      }
+      draw(p);
+    }
+  }
+  function drawPetal(p){
+    const ctx = bgCtx;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(Math.sin(p.rot)*0.6);
+    const s = 0.6 + (p.z-0.6)/1.0;
+    const w = 18*s, h = 12*s;
+
+    ctx.globalAlpha = 0.92;
+    ctx.fillStyle = p.tint;
+    ctx.beginPath(); ctx.ellipse(0,0,w,h,Math.PI/6,0,Math.PI*2); ctx.fill();
+
+    ctx.globalAlpha = 0.75;
+    ctx.beginPath(); ctx.ellipse(-w*0.15,-h*0.1,w*0.8,h*0.55,-Math.PI/5,0,Math.PI*2);
+    ctx.fillStyle = '#ffe9f0'; ctx.fill();
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  // ====== 豪運：ゴールド紙吹雪＋コイン ======
+  function startGold(){
+    setupCanvas();
+    step = stepGold;
+    draw = drawGold;
+    RAF = requestAnimationFrame(loop);
+  }
+  function makeConfetti(x,y){
+    return {
+      kind:'confetti',
+      x,y, w:rand(6,14), h:rand(10,18),
+      vy:rand(120,220), vx:rand(-40,40),
+      rot:rand(0,Math.PI*2), rotSpd:rand(2.0,4.2),
+      flip:rand(0.6,1.2),
+      color: pick([getVar('--gold-1'), getVar('--gold-2'), getVar('--gold-3')])
+    }
+  }
+  function makeCoin(x,y){
+    return {
+      kind:'coin',
+      x,y,r:rand(6,12),
+      vy:rand(100,180), vx:rand(-30,30),
+      rot:rand(0,Math.PI*2), rotSpd:rand(3.0,6.0),
+      sheen: rand(0.6,1)
+    }
+  }
+  function stepGold(dt){
+    const TARGET = 140, SPAWN = 30;
+    const w = innerWidth, h = innerHeight;
+
+    // 初期ブースト
+    if(particles.length < TARGET){
+      for(let i=0;i<SPAWN;i++){
+        const x = rand(0,w), y = -rand(10,120);
+        particles.push(pool.pop() || (Math.random()<0.75 ? makeConfetti(x,y) : makeCoin(x,y)));
+      }
+    }
+
+    bgCtx.clearRect(0,0,w,h);
+
+    // 輝きの放射（背景演出）
+    drawRays(bgCtx, w, h);
+
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.rot += p.rotSpd * dt/1000;
+      p.y += p.vy * dt/1000;
+      p.x += (p.vx + Math.sin((performance.now()+i*37)/900)*12) * dt/1000;
+
+      if(p.y > h+40 || p.x < -60 || p.x > w+60){
+        particles.splice(i,1); pool.push(p); continue;
+      }
+      draw(p);
+    }
+  }
+  function drawGold(p){
+    const ctx = bgCtx;
+    if(p.kind==='confetti'){
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      const scaleY = Math.abs(Math.sin(p.rot* p.flip)) * 0.6 + 0.4; // ひらひら反転
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2*scaleY, p.w, p.h*scaleY);
+      ctx.restore();
+    }else{ // coin
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      const squish = Math.abs(Math.sin(p.rot))*0.6+0.4;
+      const grad = ctx.createRadialGradient(0,0,0,0,0,p.r);
+      grad.addColorStop(0, '#fff8d0');
+      grad.addColorStop(0.6, getVar('--gold-2'));
+      grad.addColorStop(1, '#8a6b00');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.ellipse(0,0,p.r, p.r*squish, 0, 0, Math.PI*2); ctx.fill();
+      // うっすら刻印
+      ctx.globalAlpha = .22;
+      ctx.fillStyle = '#000';
+      ctx.beginPath(); ctx.arc(0,0,p.r*0.45,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+  }
+  function drawRays(ctx, w, h){
+    const cx = w/2, cy = h*0.12;
+    const rays = 24;
+    ctx.save();
+    ctx.translate(cx, cy);
+    for(let i=0;i<rays;i++){
+      const a = (i/rays)*Math.PI*2 + performance.now()/3000;
+      const len = h*0.9;
+      const grad = ctx.createLinearGradient(0,0, Math.cos(a)*len, Math.sin(a)*len);
+      grad.addColorStop(0, 'rgba(255,235,150,.0)');
+      grad.addColorStop(0.55, 'rgba(255,236,160,.22)');
+      grad.addColorStop(1, 'rgba(255,244,190,.0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 28;
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*len, Math.sin(a)*len); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // ===== 共通ユーティリティ =====
+  function rand(a,b){return a + Math.random()*(b-a)}
+  function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+  function getVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+
+  // ループ用の関数参照（切替）
+  let step = ()=>{}, draw = ()=>{};
+</script>
+</body>
+</html>
